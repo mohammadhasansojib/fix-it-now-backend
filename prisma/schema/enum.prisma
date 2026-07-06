@@ -1,0 +1,17 @@
+
+
+enum Role {
+    CUSTOMER @map("customer")
+    TECHNICIAN @map("technician")
+    ADMIN @map("admin")
+}
+
+enum BookingStatus {
+    REQUESTED @map("requested")
+    ACCEPTED @map("accepted")
+    DECLINED @map("declined")
+    CANCELED @map("canceled")
+    PAID @map("paid")
+    IN_PROGRESS @map("in_progress")
+    COMPLETED @map("completed")
+}

@@ -1,0 +1,28 @@
+
+
+model Booking {
+    id String @id @default(uuid())
+
+    bookingDate DateTime @db.Date() @map("booking_date")
+    startTime DateTime @db.Time() @map("start_time")
+    endTime DateTime @db.Time() @map("end_time")
+    
+    status BookingStatus @default(REQUESTED)
+    amount Decimal @db.Decimal(8, 2)
+
+    customerId String @map("customer_id")
+    customer User @relation(fields: [customerId], references: [id])
+
+    technicianId String @map("technician_id")
+    technician TechnicianProfile @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+
+    serviceId String @map("service_id")
+    service Service @relation(fields: [serviceId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    review Review?
+
+    @@map("bookings")
+}
