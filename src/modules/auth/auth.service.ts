@@ -1,4 +1,4 @@
-import { ICreateUserPayload } from "./auth.interface.js";
+import { ICreateUserPayload, IUserLoginPayload } from "./auth.interface.js";
 import bcrypt from "bcryptjs"
 import { AppError, AuthorizationError, BadRequestError, ConflictError, NotFoundError } from "../../utils/errorHandler.js";
 import * as z from "zod";
@@ -6,6 +6,7 @@ import httpStatus from "http-status";
 import { logger } from "../../utils/logger.js";
 import { formatZodError } from "../../utils/formatZodError.js";
 import authRepo from "./auth.repository.js";
+import { getAccessToken } from "../../utils/jwt.js";
 
 const createUser = async (paylod: ICreateUserPayload) => {
     const { username, email, password, role } = paylod;
@@ -72,8 +73,60 @@ const createUser = async (paylod: ICreateUserPayload) => {
     return user;
 }
 
+const userLogin = async (payload: IUserLoginPayload) => {
+    const { email, password } = payload;
+
+    // 1. email validation
+    const EmailSchema = z.object({
+        email: z.email("Invalid email address")
+        .min(1, "email is required")
+        .trim()
+    });
+    const validEmail = EmailSchema.safeParse({
+        email,
+    });
+
+    // email validation error case
+    if (!validEmail.success) {
+        logger.error("invalid email address", formatZodError(validEmail.error));
+        throw new BadRequestError("invalid email address", httpStatus.BAD_REQUEST, formatZodError(validEmail.error));
+    }
+
+    // 2. fetch user by email
+    const user = await authRepo.getUserByEmailFromDB(validEmail.data.email);
+    // user not found case
+    if (user === null || !user) {
+        logger.error("user not found for login", {
+            email: validEmail.data.email,
+        });
+        throw new NotFoundError("user not found");
+    }
+
+    // 3. password matching
+    const isPasswordMatched = await bcrypt.compare(password, user.passwordHash);
+    // password mismatch case
+    if (!isPasswordMatched) {
+        logger.error("password mismatched for login", {
+            email: validEmail.data.email,
+        });
+        throw new AuthorizationError("invalid password");
+    }
+
+    // 4. access token generation
+    const accessToken = getAccessToken(
+        user.id,
+        user.email,
+        user.role,
+        user.isBanned,
+    );
+    
+    return {
+        accessToken,
+    };
+}
 
 const authService = {
     createUser,
+    userLogin,
 }
 export default authService;

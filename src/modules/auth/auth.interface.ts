@@ -13,3 +13,15 @@ export interface ICreateUserIntoDBPayload {
     passwordHash: string,
     role: Omit<Role, "ADMIN">
 }
+
+export interface IUserLoginPayload {
+    email: string,
+    password: string,
+}
+
+export interface ICookieConfig {
+    maxAge: number,
+    httpOnly: boolean,
+    secure: boolean,
+    sameSite: "none" | "lax" | "strict",
+}
