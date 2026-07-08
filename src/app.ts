@@ -4,6 +4,7 @@ import { sendResponse } from "./utils/sendResponse.js"
 import httpStatus from "http-status"
 import cookieParser from "cookie-parser"
 import config from "./config/index.js"
+import authRouter from "./modules/auth/auth.route.js"
 
 
 const app = express()
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.cookie_parser_secret));
 
+// routers
+app.use("/api/auth", authRouter);
 
 
 app.get('/', (req: Request, res: Response) => {
