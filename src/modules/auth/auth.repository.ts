@@ -70,6 +70,35 @@ class AuthRepo {
         return user;
     }
 
+    // get user by id
+    async getUserByIdFromDB(id: string, role: Role) {
+        if (role === "TECHNICIAN") {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id,
+                },
+                omit: {
+                    passwordHash: true,
+                },
+                include: {
+                    technicianProfile: true,
+                }
+            });
+
+            return user;
+        } else {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id,
+                },
+                omit: {
+                    passwordHash: true,
+                }
+            });
+
+            return user;
+        }
+    }
 }
 
 const authRepo = new AuthRepo();

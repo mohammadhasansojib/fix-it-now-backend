@@ -6,6 +6,8 @@ import { cookieConfig } from "../../utils/getCookieConfig.js";
 import { ICookieConfig } from "./auth.interface.js";
 import config from "../../config/index.js";
 import { logger } from "../../utils/logger.js";
+import authRepo from "./auth.repository.js";
+import { NotFoundError } from "../../utils/errorHandler.js";
 
 const register = async (req: Request, res: Response) => {
     // collect data from req.body object
@@ -59,9 +61,30 @@ const login = async (req: Request, res: Response) => {
     })
 }
 
+const me = async (req: Request, res: Response) => {
+    const {user} = req;
+
+    const fetchedUser = await authRepo.getUserByIdFromDB(user?.id, user?.role);
+    if (!fetchedUser) {
+        const error = new NotFoundError("user not found");
+        logger.error("user not found", error);
+        throw error;
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "user fetched successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            user: fetchedUser,
+        },
+    })
+}
+
 
 const authController = {
     register,
     login,
+    me,
 }
 export default authController;
