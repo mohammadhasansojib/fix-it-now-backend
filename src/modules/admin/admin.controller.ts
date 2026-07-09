@@ -38,9 +38,26 @@ const updateUserStatus = async (req: Request, res: Response) => {
     });
 }
 
+const getAllBookings = async (req: Request, res: Response) => {
+    const bookings = await adminRepo.getAllBookingsFromDB();
+    if (bookings.length === 0) {
+        throw new NotFoundError("no bookings found");
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "retrived all bookings successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            bookings,
+        }
+    })
+}
+
 
 const adminController = {
     getAllUsers,
     updateUserStatus,
+    getAllBookings,
 }
 export default adminController;

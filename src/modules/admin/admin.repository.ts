@@ -54,6 +54,14 @@ class AdminRepo {
 
         return user;
     }
+
+    // get all bookings
+    async getAllBookingsFromDB() {
+        const bookings = await prisma.booking.findMany();
+
+        return bookings;
+    }
+
 }
 
 const adminRepo = new AdminRepo();
