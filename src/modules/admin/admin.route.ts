@@ -10,6 +10,7 @@ router.use(auth(Role.ADMIN));
 router.get('/users', adminController.getAllUsers)
 router.patch('/users/:id', adminController.updateUserStatus)
 router.get('/bookings', adminController.getAllBookings)
+router.get('/categories', adminController.getAllCategories)
 
 const adminRouter = router;
 export default adminRouter;

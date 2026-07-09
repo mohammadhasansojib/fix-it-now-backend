@@ -62,6 +62,13 @@ class AdminRepo {
         return bookings;
     }
 
+    // get all categories
+    async getAllCategoriesFromDB() {
+        const categories = await prisma.category.findMany();
+
+        return categories;
+    }
+
 }
 
 const adminRepo = new AdminRepo();

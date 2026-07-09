@@ -54,10 +54,27 @@ const getAllBookings = async (req: Request, res: Response) => {
     })
 }
 
+const getAllCategories = async (req: Request, res: Response) => {
+    const categories = await adminRepo.getAllCategoriesFromDB();
+    if (categories.length === 0) {
+        throw new NotFoundError("no categories found");
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "retrived all categories successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            categories,
+        }
+    })
+}
+
 
 const adminController = {
     getAllUsers,
     updateUserStatus,
     getAllBookings,
+    getAllCategories,
 }
 export default adminController;
