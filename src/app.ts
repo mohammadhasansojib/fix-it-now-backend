@@ -5,6 +5,7 @@ import httpStatus from "http-status"
 import cookieParser from "cookie-parser"
 import config from "./config/index.js"
 import authRouter from "./modules/auth/auth.route.js"
+import adminRouter from "./modules/admin/admin.route.js"
 
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(cookieParser(config.cookie_parser_secret));
 
 // routers
 app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
 
 
 app.get('/', (req: Request, res: Response) => {
