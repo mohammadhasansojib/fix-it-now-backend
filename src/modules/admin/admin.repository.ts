@@ -69,6 +69,17 @@ class AdminRepo {
         return categories;
     }
 
+    // create service category
+    async createCategoryIntoDB(name: string) {
+        const category = await prisma.category.create({
+            data: {
+                name,
+            }
+        });
+
+        return category;
+    }
+
 }
 
 const adminRepo = new AdminRepo();

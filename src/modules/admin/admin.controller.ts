@@ -70,11 +70,30 @@ const getAllCategories = async (req: Request, res: Response) => {
     })
 }
 
+const createCategory = async (req: Request, res: Response) => {
+    const {name} = req.body;
+
+    const category = await adminRepo.createCategoryIntoDB(name);
+    if (!category) {
+        throw new AppError("category cannot be created");
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "category created successfully",
+        statusCode: httpStatus.CREATED,
+        data: {
+            category,
+        }
+    })
+}
+
 
 const adminController = {
     getAllUsers,
     updateUserStatus,
     getAllBookings,
     getAllCategories,
+    createCategory,
 }
 export default adminController;

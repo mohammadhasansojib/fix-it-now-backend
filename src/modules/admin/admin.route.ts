@@ -11,6 +11,7 @@ router.get('/users', adminController.getAllUsers)
 router.patch('/users/:id', adminController.updateUserStatus)
 router.get('/bookings', adminController.getAllBookings)
 router.get('/categories', adminController.getAllCategories)
+router.post('/categories', adminController.createCategory)
 
 const adminRouter = router;
 export default adminRouter;
