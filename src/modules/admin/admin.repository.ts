@@ -21,6 +21,39 @@ class AdminRepo {
         return users;
     }
 
+    // get user by id
+    async getUserByIdFromDB(id: string) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id,
+                role: {
+                    in: [Role.CUSTOMER, Role.TECHNICIAN],
+                },
+            },
+            omit: {
+                passwordHash: true,
+            }
+        });
+
+        return user;
+    }
+
+    // update ban/unban status
+    async updateUserStatusIntoDB(id: string, isBanned: boolean) {
+        const user = await prisma.user.update({
+            where: {
+                id,
+            },
+            data: {
+                isBanned,
+            },
+            omit: {
+                passwordHash: true,
+            }
+        });
+
+        return user;
+    }
 }
 
 const adminRepo = new AdminRepo();

@@ -8,6 +8,7 @@ const router = express.Router();
 router.use(auth(Role.ADMIN));
 
 router.get('/users', adminController.getAllUsers)
+router.patch('/users/:id', adminController.updateUserStatus)
 
 const adminRouter = router;
 export default adminRouter;

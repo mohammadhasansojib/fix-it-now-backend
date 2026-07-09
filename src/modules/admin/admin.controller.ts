@@ -3,6 +3,7 @@ import adminRepo from "./admin.repository.js";
 import { AppError, NotFoundError } from "../../utils/errorHandler.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status"
+import adminService from "./admin.service.js";
 
 const getAllUsers = async (req: Request, res: Response) => {
     const users = await adminRepo.getAllUsersFromDB();
@@ -21,8 +22,25 @@ const getAllUsers = async (req: Request, res: Response) => {
     })
 }
 
+const updateUserStatus = async (req: Request, res: Response) => {
+    const {id} = req.params;
+    const {isBanned} = req.body;
+
+    const updatedUser = await adminService.updateUserStatus(id as string, isBanned);
+
+    sendResponse(res, {
+        success: true,
+        message: "user status updated successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            user: updatedUser,
+        }
+    });
+}
+
 
 const adminController = {
     getAllUsers,
+    updateUserStatus,
 }
 export default adminController;
