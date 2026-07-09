@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import technicianService from "./technician.service.js";
 import { AppError, NotFoundError } from "../../utils/errorHandler.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status"
@@ -20,9 +21,25 @@ const getAllTechnicians = async (req: Request, res: Response) => {
     })
 }
 
+const getSingleTechnician = async (req: Request, res: Response) => {
+    const id = req.params.id as string;
+
+    const technician = await technicianService.getTechnicianWithReviews(id);
+
+    sendResponse(res, {
+        success: true,
+        message: "retrived technician successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            technician,
+        },
+    })
+}
+
 
 
 const technicianController = {
     getAllTechnicians,
+    getSingleTechnician,
 }
 export default technicianController;
