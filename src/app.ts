@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser"
 import config from "./config/index.js"
 import authRouter from "./modules/auth/auth.route.js"
 import adminRouter from "./modules/admin/admin.route.js"
+import technicianRouter from "./modules/technician/technician.route.js"
 import serviceRouter from "./modules/service/service.route.js"
 
 
@@ -18,6 +19,7 @@ app.use(cookieParser(config.cookie_parser_secret));
 // routers
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/technicians", technicianRouter);
 app.use("/api/services", serviceRouter);
 
 
