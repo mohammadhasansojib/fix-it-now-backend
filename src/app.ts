@@ -10,6 +10,7 @@ import technicianRouter from "./modules/technician/technician.route.js"
 import serviceRouter from "./modules/service/service.route.js"
 import categoryRouter from "./modules/category/category.route.js"
 import bookingRouter from "./modules/booking/booking.route.js"
+import reviewRouter from "./modules/review/review.route.js"
 
 
 const app = express()
@@ -25,6 +26,7 @@ app.use("/api/technicians", technicianRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/bookings", bookingRouter);
+app.use("/api/reviews", reviewRouter);
 
 
 app.get('/', (req: Request, res: Response) => {
