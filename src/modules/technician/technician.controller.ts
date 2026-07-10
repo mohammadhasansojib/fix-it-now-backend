@@ -36,10 +36,31 @@ const getSingleTechnician = async (req: Request, res: Response) => {
     })
 }
 
+const updateProfile = async (req: Request, res: Response) => {
+
+    const id = req.technicianProfile?.id as string;
+
+    const updatedTechnicianProfile = await technicianService.updateTechnicianProfile(id, req.body);
+    if (!updatedTechnicianProfile) {
+        throw new AppError("technician profile cannot be updated");
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "technician profile updated successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            technicianProfile: updatedTechnicianProfile,
+        }
+    })
+
+}
 
 
 const technicianController = {
     getAllTechnicians,
     getSingleTechnician,
+
+    updateProfile,
 }
 export default technicianController;

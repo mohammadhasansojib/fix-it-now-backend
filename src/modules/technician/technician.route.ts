@@ -1,7 +1,16 @@
 import express from "express"
+import { auth } from "../../middlewares/auth.js";
+import { Role } from "../../../generated/prisma/enums.js";
 import technicianController from "./technician.controller.js";
 
 const router = express.Router();
+
+// private routes
+router.put(
+    '/profile',
+    auth(Role.TECHNICIAN),
+    technicianController.updateProfile
+)
 
 // public routes
 router.get('/', technicianController.getAllTechnicians)
