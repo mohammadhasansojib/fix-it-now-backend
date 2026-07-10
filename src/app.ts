@@ -9,6 +9,7 @@ import adminRouter from "./modules/admin/admin.route.js"
 import technicianRouter from "./modules/technician/technician.route.js"
 import serviceRouter from "./modules/service/service.route.js"
 import categoryRouter from "./modules/category/category.route.js"
+import bookingRouter from "./modules/booking/booking.route.js"
 
 
 const app = express()
@@ -23,6 +24,7 @@ app.use("/api/admin", adminRouter);
 app.use("/api/technicians", technicianRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/categories", categoryRouter);
+app.use("/api/bookings", bookingRouter);
 
 
 app.get('/', (req: Request, res: Response) => {
