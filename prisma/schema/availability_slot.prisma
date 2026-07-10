@@ -4,14 +4,15 @@ model AvailabilitySlot {
     id String @id @default(uuid())
 
     dayOfWeek Int @db.SmallInt() @map("day_of_week")
-    startTime DateTime @db.Time() @map("start_time")
-    endTime DateTime @db.Time() @map("end_time")
+    startTime String @db.VarChar(255) @map("start_time")
+    endTime String @db.VarChar(255) @map("end_time")
 
     technicianId String @map("technician_id")
     technician TechnicianProfile @relation(fields: [technicianId], references: [id], onDelete: Cascade)
 
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @db.Timestamptz(0) @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz(0) @updatedAt @map("updated_at")
 
     @@map("availability_slots")
+    @@index([technicianId, dayOfWeek])
 }

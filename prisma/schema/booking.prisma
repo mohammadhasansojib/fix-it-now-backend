@@ -3,9 +3,8 @@
 model Booking {
     id String @id @default(uuid())
 
-    bookingDate DateTime @db.Date() @map("booking_date")
-    startTime DateTime @db.Time() @map("start_time")
-    endTime DateTime @db.Time() @map("end_time")
+    startTime DateTime @db.Timestamptz(0) @map("start_time")
+    endTime DateTime @db.Timestamptz(0) @map("end_time")
     
     status BookingStatus @default(REQUESTED)
     amount Decimal @db.Decimal(8, 2)
@@ -19,10 +18,11 @@ model Booking {
     serviceId String @map("service_id")
     service Service @relation(fields: [serviceId], references: [id])
 
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @db.Timestamptz(0) @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz(0) @updatedAt @map("updated_at")
 
     review Review?
 
     @@map("bookings")
+    @@index([technicianId, startTime, endTime])
 }

@@ -12,8 +12,8 @@ model TechnicianProfile {
     skills String[] @default([])
     experience Int?
 
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @db.Timestamptz(0) @default(now()) @map("created_at")
+    updatedAt DateTime @db.Timestamptz(0) @updatedAt @map("updated_at")
 
     service Service[]
     availabilitySlot AvailabilitySlot[]
