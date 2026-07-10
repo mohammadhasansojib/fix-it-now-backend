@@ -42,9 +42,30 @@ const getUserBookings = async (req: Request, res: Response) => {
     })
 }
 
+const getUserBookingById = async (req: Request, res: Response) => {
+    const bookingId = req.params.id as string;
+    const userId = req.user?.id as string;
+
+
+    const booking = await bookingRepo.getBookingById(bookingId);
+    if (!booking || booking.customerId !== userId) {
+        throw new NotFoundError("booking not found");
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "retrived booking successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            booking,
+        },
+    })
+}
+
 
 const bookingController = {
     createBooking,
     getUserBookings,
+    getUserBookingById,
 }
 export default bookingController;

@@ -36,6 +36,16 @@ class BookingRepo {
         return booking;
     }
 
+    // get service by id
+    async getServiceByIdFromDB(id: string) {
+        const service = await prisma.service.findUnique({
+            where: {
+                id,
+            },
+        });
+
+        return service;
+    }
 }
 
 
