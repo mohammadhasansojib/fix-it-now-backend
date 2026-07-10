@@ -21,6 +21,11 @@ router.get(
     auth(Role.TECHNICIAN),
     technicianController.getTechnicianBookings
 )
+router.patch(
+    '/bookings/:id',
+    auth(Role.TECHNICIAN),
+    technicianController.updateBookingStatus
+)
 
 // public routes
 router.get('/', technicianController.getAllTechnicians)

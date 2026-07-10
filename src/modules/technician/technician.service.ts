@@ -1,4 +1,6 @@
+import { BookingStatus } from "../../../generated/prisma/enums.js";
 import { AppError, BadRequestError, ForbiddenError, NotFoundError } from "../../utils/errorHandler.js";
+import { logger } from "../../utils/logger.js";
 import { ICreateSlotPayload, ITechnicianProfileUpdatePayload } from "./technician.interface.js";
 import technicianRepo from "./technician.repository.js";
 import { isAfter, areIntervalsOverlapping } from "date-fns";
@@ -84,10 +86,31 @@ const getTechnicianWithReviews = async (technicianId: string) => {
     return technician;
 }
 
+const updateBookingStatus = async (bookingId: string, status: BookingStatus, technicianId: string) => {
+    const booking = await technicianRepo.getBookingByIdFromDB(bookingId);
+    if (!booking) {
+        throw new NotFoundError("booking not found");
+    }
+    if (booking.status === status) {
+        throw new BadRequestError("booking already in this status");
+    }
+    if (booking.technicianId !== technicianId) {
+        throw new ForbiddenError("you are not authorized to update this booking");
+    }
+
+    const updatedBooking = await technicianRepo.updateBookingStatusIntoDB(bookingId, status);
+    if (!updatedBooking) {
+        throw new AppError("booking status cannot be updated");
+    }
+
+    return updatedBooking;
+}
+
 
 const technicianService = {
     updateTechnicianProfile,
     createAvailabilitySlot,
     getTechnicianWithReviews,
+    updateBookingStatus,
 }
 export default technicianService;

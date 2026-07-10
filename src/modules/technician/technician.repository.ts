@@ -1,3 +1,4 @@
+import { BookingStatus } from "../../../generated/prisma/enums.js";
 import { prisma } from "../../lib/prisma.js"
 import { ICreateSlotPayload, ITechnicianProfileUpdatePayload } from "./technician.interface.js";
 
@@ -94,6 +95,34 @@ class TechnicianRepo {
         })
 
         return slots;
+    }
+
+    // get booking by id
+    async getBookingByIdFromDB(id: string) {
+        const booking = await prisma.booking.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                service: true,
+            }
+        });
+
+        return booking;
+    }
+
+    // update booking status
+    async updateBookingStatusIntoDB(id: string, status: BookingStatus) {
+        const booking = await prisma.booking.update({
+            where: {
+                id,
+            },
+            data: {
+                status,
+            },
+        });
+
+        return booking;
     }
 
     // get technician's all bookings

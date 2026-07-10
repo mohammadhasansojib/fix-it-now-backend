@@ -93,6 +93,23 @@ const getTechnicianBookings = async (req: Request, res: Response) => {
     });
 }
 
+const updateBookingStatus = async (req: Request, res: Response) => {
+    const bookingId = req.params.id as string;
+    const technicianId = req.technicianProfile?.id as string;
+    const {status} = req.body;
+
+    const updatedBooking = await technicianService.updateBookingStatus(bookingId, status, technicianId);
+
+    sendResponse(res, {
+        success: true,
+        message: "booking status updated successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            booking: updatedBooking,
+        },
+    });
+}
+
 
 const technicianController = {
     getAllTechnicians,
@@ -101,5 +118,6 @@ const technicianController = {
     updateProfile,
     createAvailabilitySlot,
     getTechnicianBookings,
+    updateBookingStatus,
 }
 export default technicianController;
