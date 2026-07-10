@@ -56,11 +56,31 @@ const updateProfile = async (req: Request, res: Response) => {
 
 }
 
+const createAvailabilitySlot = async (req: Request, res: Response) => {
+    const id = req.technicianProfile?.id as string;
+
+    const slot = await technicianService.createAvailabilitySlot({
+        ...req.body,
+        technicianId: id,
+    });
+
+    sendResponse(res, {
+        success: true,
+        message: "availability slot created successfully",
+        statusCode: httpStatus.CREATED,
+        data: {
+            availabilitySlot: slot,
+        }
+    })
+
+}
+
 
 const technicianController = {
     getAllTechnicians,
     getSingleTechnician,
 
     updateProfile,
+    createAvailabilitySlot,
 }
 export default technicianController;

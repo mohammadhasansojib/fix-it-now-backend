@@ -65,6 +65,36 @@ class TechnicianRepo {
         
         return updatedTechnicianProfile;
     }
+
+    // create availability slot
+    async createAvailabilitySlotIntoDB(payload: ICreateSlotPayload) {
+        const {dayOfWeek, startTime, endTime, technicianId} = payload;
+
+        const slot = await prisma.availabilitySlot.create({
+            data: {
+                dayOfWeek,
+                startTime,
+                endTime,
+                technicianId,
+            },
+        });
+
+        return slot;
+    }
+
+    async getAvailabilitySlotsByDayFromDB(dayOfWeek: number, technicianId: string) {
+        const slots = await prisma.availabilitySlot.findMany({
+            where: {
+                dayOfWeek,
+                technicianId,
+            },
+            orderBy: {
+                startTime: "asc",
+            }
+        })
+
+        return slots;
+    }
 }
 
 
