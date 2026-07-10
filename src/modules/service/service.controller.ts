@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import serviceRepo from "./service.repository.js";
 import { NotFoundError } from "../../utils/errorHandler.js";
 import { sendResponse } from "../../utils/sendResponse.js";
+import serviceService from "./service.service.js";
 
 
 const getAllServices = async (req: Request, res: Response) => {
@@ -20,8 +21,28 @@ const getAllServices = async (req: Request, res: Response) => {
     });
 }
 
+const createService = async (req: Request, res: Response) => {
+    const id = req.technicianProfile?.id as string;
+    
+    const service = await serviceService.createService({
+        ...req.body,
+        technicianId: id,
+    });
+
+    sendResponse(res, {
+        success: true,
+        message: "service created successfully",
+        statusCode: 201,
+        data: {
+            service,
+        },
+    })
+    
+}
+
 
 const serviceController = {
     getAllServices,
+    createService,
 }
 export default serviceController;
