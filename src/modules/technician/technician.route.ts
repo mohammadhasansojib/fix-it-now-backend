@@ -16,6 +16,11 @@ router.post(
     auth(Role.TECHNICIAN),
     technicianController.createAvailabilitySlot
 )
+router.get(
+    '/bookings',
+    auth(Role.TECHNICIAN),
+    technicianController.getTechnicianBookings
+)
 
 // public routes
 router.get('/', technicianController.getAllTechnicians)

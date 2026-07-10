@@ -75,6 +75,24 @@ const createAvailabilitySlot = async (req: Request, res: Response) => {
 
 }
 
+const getTechnicianBookings = async (req: Request, res: Response) => {
+    const technicianId = req.technicianProfile?.id as string;
+
+    const bookings = await technicianRepo.getTechnicianBookingsFromDB(technicianId);
+    if (bookings.length === 0) {
+        throw new NotFoundError("no bookings found");
+    }
+
+    sendResponse(res, {
+        success: true,
+        message: "retrived all bookings successfully",
+        statusCode: httpStatus.OK,
+        data: {
+            bookings,
+        },
+    });
+}
+
 
 const technicianController = {
     getAllTechnicians,
@@ -82,5 +100,6 @@ const technicianController = {
 
     updateProfile,
     createAvailabilitySlot,
+    getTechnicianBookings,
 }
 export default technicianController;

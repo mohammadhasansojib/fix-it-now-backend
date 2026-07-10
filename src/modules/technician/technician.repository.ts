@@ -95,6 +95,17 @@ class TechnicianRepo {
 
         return slots;
     }
+
+    // get technician's all bookings
+    async getTechnicianBookingsFromDB(technicianId: string) {
+        const bookings = await prisma.booking.findMany({
+            where: {
+                technicianId,
+            }
+        });
+
+        return bookings;
+    }
 }
 
 
