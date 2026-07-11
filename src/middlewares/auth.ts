@@ -19,7 +19,7 @@ declare global {
 
 
 export const auth = (...roles: Role[]) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, _res: Response, next: NextFunction) => {
         
         try {
             const token = req.cookies.accessToken ? 

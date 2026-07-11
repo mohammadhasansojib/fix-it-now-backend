@@ -5,7 +5,7 @@ import { sendResponse } from "../../utils/sendResponse.js";
 import serviceService from "./service.service.js";
 
 
-const getAllServices = async (req: Request, res: Response) => {
+const getAllServices = async (_req: Request, res: Response) => {
     const services = await serviceRepo.getAllServicesFromDB();
     if (services.length === 0) {
         throw new NotFoundError("no services found");

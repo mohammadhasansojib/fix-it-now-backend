@@ -35,12 +35,12 @@ app.use("/api/reviews", reviewRouter);
 app.use("/api/payments", paymentRouter);
 
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
     res.send('Server running...');
 });
 
 // 404 handling
-app.use((req: Request, res: Response) => {
+app.use((_req: Request, res: Response) => {
     sendResponse(res, {
         success: false,
         message: "not found",
@@ -50,7 +50,7 @@ app.use((req: Request, res: Response) => {
 })
 
 // global error handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const statusCode = Number(err.statusCode) || httpStatus.INTERNAL_SERVER_ERROR;
 
     sendResponse(res, {

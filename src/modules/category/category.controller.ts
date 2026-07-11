@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 
 
 
-const getAllCategories = async (req: Request, res: Response) => {
+const getAllCategories = async (_req: Request, res: Response) => {
     const categories = await categoryRepo.getAllCategoriesFromDB();
     if (categories.length === 0) {
         throw new NotFoundError("no categories found");

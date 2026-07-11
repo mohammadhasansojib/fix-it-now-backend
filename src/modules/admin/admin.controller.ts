@@ -5,7 +5,7 @@ import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status"
 import adminService from "./admin.service.js";
 
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async (_req: Request, res: Response) => {
     const users = await adminRepo.getAllUsersFromDB();
 
     if (users.length === 0) {
@@ -38,7 +38,7 @@ const updateUserStatus = async (req: Request, res: Response) => {
     });
 }
 
-const getAllBookings = async (req: Request, res: Response) => {
+const getAllBookings = async (_req: Request, res: Response) => {
     const bookings = await adminRepo.getAllBookingsFromDB();
     if (bookings.length === 0) {
         throw new NotFoundError("no bookings found");
@@ -54,7 +54,7 @@ const getAllBookings = async (req: Request, res: Response) => {
     })
 }
 
-const getAllCategories = async (req: Request, res: Response) => {
+const getAllCategories = async (_req: Request, res: Response) => {
     const categories = await adminRepo.getAllCategoriesFromDB();
     if (categories.length === 0) {
         throw new NotFoundError("no categories found");

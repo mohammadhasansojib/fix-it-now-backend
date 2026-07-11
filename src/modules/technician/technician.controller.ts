@@ -5,7 +5,7 @@ import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status"
 import technicianRepo from "./technician.repository.js";
 
-const getAllTechnicians = async (req: Request, res: Response) => {
+const getAllTechnicians = async (_req: Request, res: Response) => {
     const technicians = await technicianRepo.getAllTechniciansFromDB();
     if (technicians.length === 0) {
         throw new NotFoundError("no techincians found");
