@@ -12,6 +12,8 @@ model TechnicianProfile {
     skills String[] @default([])
     experience Int?
 
+    stripeAccountId String? @unique @map("stripe_account_id")
+
     createdAt DateTime @db.Timestamptz(0) @default(now()) @map("created_at")
     updatedAt DateTime @db.Timestamptz(0) @updatedAt @map("updated_at")
 

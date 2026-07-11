@@ -15,3 +15,14 @@ enum BookingStatus {
     IN_PROGRESS @map("in_progress")
     COMPLETED @map("completed")
 }
+
+enum PaymentProvider {
+  STRIPE
+  SSLCOMMERZ
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}

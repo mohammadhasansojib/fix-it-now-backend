@@ -15,6 +15,7 @@ model User {
 
     technicianProfile TechnicianProfile?
     booking Booking[]
+    payments Payment[]
 
     @@map("users")
 }

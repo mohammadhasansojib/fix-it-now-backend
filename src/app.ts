@@ -11,10 +11,15 @@ import serviceRouter from "./modules/service/service.route.js"
 import categoryRouter from "./modules/category/category.route.js"
 import bookingRouter from "./modules/booking/booking.route.js"
 import reviewRouter from "./modules/review/review.route.js"
+import paymentRouter from "./modules/payment/payment.route.js"
 
 
 const app = express()
 
+app.use(
+    "/api/payments/webhook",
+    express.raw({ type: "application/json" })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.cookie_parser_secret));
@@ -27,6 +32,7 @@ app.use("/api/services", serviceRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/reviews", reviewRouter);
+app.use("/api/payments", paymentRouter);
 
 
 app.get('/', (req: Request, res: Response) => {
