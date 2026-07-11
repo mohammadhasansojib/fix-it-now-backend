@@ -2,7 +2,6 @@ import type { Request, Response } from "express";
 import paymentService from "./payment.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status"
-import Stripe from "stripe";
 import { stripe } from "../../lib/stripe.js";
 import config from "../../config/index.js";
 import { BadRequestError } from "../../utils/errorHandler.js";
